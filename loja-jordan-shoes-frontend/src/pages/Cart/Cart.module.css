@@ -1,0 +1,167 @@
+.carrinhoContainer {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.carrinhoContainer h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+}
+
+.tabela {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+
+.tabela th, .tabela td {
+    border: 1px solid #ccc;
+    height: 40px;
+    padding: 8px 10px;
+    text-align: left;
+}
+
+.tabela th {
+    background-color: #f8f8f8;
+}
+
+.colunaTamanho, .colunaPreco {
+    text-align: right;
+}
+
+.colunaApagar {
+    width: 65px;
+    text-align: center;
+}
+
+.colunaApagar span {
+    cursor: pointer;
+    color: #888;
+    transition: color 0.2s ease;
+}
+
+.colunaApagar span:hover {
+    color: #f44336;
+}
+
+.tabela tfoot td {
+    text-align: right;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+/* Detalhes do Carrinho */
+.carrinhoDetalhes {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.detalhesBox {
+    flex: 1;
+    min-width: 300px;
+}
+
+.detalhesBox label, .detalhesBox h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.inputGroup {
+    display: flex;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.inputGroup input {
+    width: 100%;
+    height: 50px;
+    border-radius: 50px;
+    border: 1px solid#ccc;
+    font-size: 16px;
+    padding-left: 20px;
+    padding-right: 130px;
+}
+
+.inputGroup button {
+    font-size: 16px;
+    width: 120px;
+    height: 40px;
+    background-color: var(--white);
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    transition: border-color 0.2s ease;
+}
+
+.inputGroup button:hover {
+    border-color: var(--dark);
+}
+
+.resumo ul {
+    list-style: none;
+    margin-bottom: 20px;
+    border-top: 1px solid #ccc;
+}
+
+.resumo li {
+    font-size: 16px;
+    line-height: 48px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+}
+.resumo li strong {
+    font-size: 1.2em;
+}
+
+.btnContinuar {
+    width: 100%;
+    height: 50px;
+    border-radius: 50px;
+    background-color: var(--dark);
+    color: var(--white);
+    border: 0;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.2s ease;
+}
+.btnContinuar:hover {
+    background-color: #333;
+}
+
+/* Estilo para Carrinho Vazio */
+.carrinhoVazio {
+    text-align: center;
+    padding: 80px 20px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+}
+.carrinhoVazio h3 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+.carrinhoVazio p {
+    margin-bottom: 25px;
+}
+.carrinhoVazio a {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: var(--dark);
+    color: var(--white);
+    text-decoration: none;
+    border-radius: 50px;
+    transition: background-color 0.2s ease;
+}
+.carrinhoVazio a:hover {
+    background-color: #333;
+}

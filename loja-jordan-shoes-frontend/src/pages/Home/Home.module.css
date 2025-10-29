@@ -1,0 +1,32 @@
+.produtos {
+    width: 100%;
+    padding-block: 80px;
+}
+
+.heading {
+    margin-bottom: 50px;
+    text-align: center;
+}
+
+.heading h3 {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.heading p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #555;
+}
+
+.listaProdutos {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-inline: 20px;
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+}

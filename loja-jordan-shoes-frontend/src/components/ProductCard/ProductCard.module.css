@@ -1,0 +1,64 @@
+.cardProduto {
+    width: 336px;
+    height: 326px;
+    flex-basis: 336px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.cardProduto:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.cardProduto figure {
+    width: 100%;
+    height: 200px;
+    background-color: var(--white_soft);
+    border: 1px solid transparent;
+    transition: border-color 0.2s ease;
+    border-radius: 8px;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cardProduto:hover figure {
+    border-color: var(--brand_color);
+}
+
+.cardProduto figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cardProdutoDetalhes {
+    margin-block: 24px;
+}
+
+.cardProdutoDetalhes h4 {
+    font-size: 18px;
+    line-height: 28px;
+    color: var(--dark);
+
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cardProdutoDetalhes h5 {
+    font-size: 16px;
+    line-height: 26px;
+    color: var(--brand_color);
+}
+
+.cardProduto h6 {
+    font-size: 20px;
+    line-height: 30px;
+    font-family: "Space Grotesk", sans-serif;
+    color: var(--dark);
+}

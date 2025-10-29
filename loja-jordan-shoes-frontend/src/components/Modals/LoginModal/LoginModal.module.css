@@ -1,0 +1,43 @@
+.container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.form .inputGroup {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+.form label {
+    margin-bottom: 5px;
+}
+.form input {
+    height: 40px;
+    padding: 0 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+.form button {
+    width: 100%;
+    height: 45px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--dark);
+    color: var(--white);
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.centralizar {
+    text-align: center;
+    margin-top: 20px;
+}
+.linkCadastrar {
+    color: var(--brand_color);
+    cursor: pointer;
+    text-decoration: underline;
+}
+.erro {
+    color: #f44336;
+    text-align: center;
+    margin-top: 10px;
+}
