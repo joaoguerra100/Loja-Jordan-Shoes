@@ -1,0 +1,11 @@
+using JordanShoes.Api.DTOs;
+
+namespace JordanShoes.Api.Service.Interface;
+
+public interface IUsuarioService
+{
+    Task<IEnumerable<UsuarioInfoDTO>> GetAllUsuariosAsync();
+    Task<(bool sucesso, string Mensagem)> RegistrarAsync(RegistrarUsuarioDTO dto);
+    Task<UsuarioInfoDTO> UpdateUsuarioAsync(int id, AtualizarUsuarioDTO dto);
+    Task<bool> DeleteUsuarioAsync(int id);
+}

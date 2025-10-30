@@ -1,7 +1,9 @@
 using JordanShoes.Api.DTOs;
+using JordanShoes.Api.Models;
+using JordanShoes.Api.Repository.Interface;
 using JordanShoes.Api.Service.Interface;
 
-namespace JordanShoes.Api.Repository.Interface;
+namespace JordanShoes.Api.Service;
 
 public class ProdutoService : IProdutoService
 {
@@ -26,7 +28,7 @@ public class ProdutoService : IProdutoService
         });
     }
 
-    public async Task<ProdutoDTO> GetProdutoByIdAsync(int id)
+    public async Task<ProdutoDTO?> GetProdutoByIdAsync(int id)
     {
         var produto = await _repository.GetProdutoByIdAsync(id);
 
@@ -34,7 +36,7 @@ public class ProdutoService : IProdutoService
         {
             return null!;
         }
-        
+
         return new ProdutoDTO
         {
             Id = produto.Id,
@@ -43,5 +45,55 @@ public class ProdutoService : IProdutoService
             Image = produto.Image,
             Preco = produto.Preco
         };
+    }
+
+    public async Task<ProdutoDTO> CreateProdutoAsync(CriarProdutoDTO dto)
+    {
+        var produto = new Produto
+        {
+            Nome = dto.Nome,
+            Descricao = dto.Descricao,
+            Image = dto.Image,
+            Preco = dto.Preco
+        };
+
+        var produtoCriado = await _repository.CreateProdutoAsync(produto);
+
+        return new ProdutoDTO
+        {
+            Id = produtoCriado.Id,
+            Nome = produtoCriado.Nome,
+            Descricao = produtoCriado.Descricao,
+            Image = produtoCriado.Image,
+            Preco = produtoCriado.Preco
+        };
+    }
+
+    public async Task<ProdutoDTO?> UpdateProdutoAsync(int id, AtualizarProdutoDTO dto)
+    {
+        var produtoParaAtualizar = new Produto
+        {
+            Nome = dto.Nome,
+            Descricao = dto.Descricao,
+            Image = dto.Image,
+            Preco = dto.Preco
+        };
+
+        var produtoAtualizado = await _repository.UpdateProdutoAsync(id, produtoParaAtualizar);
+        if (produtoAtualizado == null) return null;
+
+        return new ProdutoDTO
+        {
+            Id = produtoAtualizado.Id,
+            Nome = produtoAtualizado.Nome,
+            Descricao = produtoAtualizado.Descricao,
+            Image = produtoAtualizado.Image,
+            Preco = produtoAtualizado.Preco
+        };
+    }
+
+    public async Task<bool> DeleteProdutoAsync(int id)
+    {
+        return await _repository.DeleteProdutoAsync(id);
     }
 }

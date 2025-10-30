@@ -1,0 +1,44 @@
+[
+  {
+    "Id": 1,
+    "Image": "air-jordan-1-mid-dutch-green-1-400.png",
+    "Nome": "Air Jordan 1 Mid Dutch Green",
+    "Descricao": "T\u00EAnis Air Jordan",
+    "Preco": 1199.99
+  },
+  {
+    "Id": 2,
+    "Image": "air-jordan-1-high-zoom-cmft-tropical-twist-1-400.png",
+    "Nome": "Air Jordan 1 High Zoom CMFT Tropical Twist",
+    "Descricao": "T\u00EAnis Air Jordan",
+    "Preco": 1049.99
+  },
+  {
+    "Id": 3,
+    "Image": "air-jordan-1-retro-high-court-purple-w-1-400.png",
+    "Nome": "Air Jordan 1 Retro High Court Purple",
+    "Descricao": "T\u00EAnis Air Jordan",
+    "Preco": 1350.00
+  },
+  {
+    "Id": 4,
+    "Image": "air-jordan-1-mid-light-smoke-grey-gs-1-1000.png",
+    "Nome": "Air Jordan 1 Mid GS \u0022Light Smoke Grey\u0022",
+    "Descricao": "T\u00EAnis Air Jordan",
+    "Preco": 1585.00
+  },
+  {
+    "Id": 5,
+    "Image": "air-jordan-1-mid-bright-citrus-1-1000.png",
+    "Nome": "Air Jordan 1 Mid SE Bright Citrus",
+    "Descricao": "T\u00EAnis Air Jordan",
+    "Preco": 949.99
+  },
+  {
+    "Id": 6,
+    "Image": "air-jordan-1-mid-grey-camo-1-1000.png",
+    "Nome": "Air Jordan 1 Mid Grey Camo",
+    "Descricao": "T\u00EAnis Air Jordan",
+    "Preco": 999.99
+  }
+]
