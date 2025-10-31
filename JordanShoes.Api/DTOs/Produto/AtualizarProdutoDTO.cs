@@ -1,8 +1,7 @@
-namespace JordanShoes.Api.DTOs;
+namespace JordanShoes.Api.DTOs.Produto;
 
-public class ProdutoDTO
+public class AtualizarProdutoDTO
 {
-    public int Id { get; set; }
     public string? Image { get; set; }
     public string? Nome { get; set; }
     public string? Descricao { get; set; }

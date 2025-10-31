@@ -1,4 +1,4 @@
-using JordanShoes.Api.DTOs;
+using JordanShoes.Api.DTOs.Produto;
 
 namespace JordanShoes.Api.Service.Interface;
 

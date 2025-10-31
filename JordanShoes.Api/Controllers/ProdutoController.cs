@@ -1,4 +1,4 @@
-using JordanShoes.Api.DTOs;
+using JordanShoes.Api.DTOs.Produto;
 using JordanShoes.Api.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,7 +31,7 @@ public class ProdutoController : Controller
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetAllProdutoById(int id)
+    public async Task<IActionResult> GetProdutoById(int id)
     {
         try
         {
@@ -56,7 +56,7 @@ public class ProdutoController : Controller
         {
             var novoProduto = await _service.CreateProdutoAsync(dto);
 
-            return CreatedAtAction(nameof(GetAllProdutoById), new { id = novoProduto.Id }, novoProduto);
+            return CreatedAtAction(nameof(GetProdutoById), new { id = novoProduto.Id }, novoProduto);
         }
         catch (Exception e)
         {

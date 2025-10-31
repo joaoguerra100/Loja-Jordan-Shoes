@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace JordanShoes.Api.DTOs;
+namespace JordanShoes.Api.DTOs.Cliente;
 
-public class CriarClienteDTO
+public class AtualizarClienteDTO
 {
     [Required]
     public string? Nome { get; set; }
@@ -31,6 +31,5 @@ public class CriarClienteDTO
     public string? Cidade { get; set; }
 
     [Required]
-    [MaxLength(2, ErrorMessage = "Estado deve ter no maximo 2 caracteres")]
     public string? Estado { get; set; }
 }

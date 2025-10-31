@@ -1,4 +1,4 @@
-using JordanShoes.Api.DTOs;
+using JordanShoes.Api.DTOs.Usuario;
 using JordanShoes.Api.Service.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -77,7 +77,7 @@ public class UsuarioController : Controller
         }
         catch (Exception e)
         {
-            return BadRequest($"Nao foi possivel Atualizar produto{e.Message}");
+            return BadRequest($"Nao foi possivel deletar produto{e.Message}");
         }
     }
 }

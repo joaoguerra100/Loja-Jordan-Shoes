@@ -8,9 +8,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
+builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IClienteService, ClienteService>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>

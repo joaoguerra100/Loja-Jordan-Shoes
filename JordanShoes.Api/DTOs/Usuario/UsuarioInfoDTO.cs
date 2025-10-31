@@ -1,4 +1,4 @@
-namespace JordanShoes.Api.DTOs;
+namespace JordanShoes.Api.DTOs.Usuario;
 
 public class UsuarioInfoDTO
 {

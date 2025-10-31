@@ -1,4 +1,4 @@
-using JordanShoes.Api.DTOs;
+using JordanShoes.Api.DTOs.Produto;
 using JordanShoes.Api.Models;
 using JordanShoes.Api.Repository.Interface;
 using JordanShoes.Api.Service.Interface;
