@@ -20,15 +20,15 @@ function ProductCard({ product }) {
         <div className={styles.cardProduto} onClick={handleCardClick}>
             <figure>
                 {/* As imagens dos produtos devem estar na pasta 'public/images' */}
-                <img src={`/images/${product.image}`} alt={product.product_name} />
+                <img src={`/images/${product.image}`} alt={product.nome} />
             </figure>
 
             <div className={styles.cardProdutoDetalhes}>
-                <h4>{product.product_name}</h4>
-                <h5>{product.product_model}</h5>
+                <h4>{product.nome}</h4>
+                <h5>{product.descricao}</h5>
             </div>
 
-            <h6>{formatCurrency(product.price)}</h6>
+            <h6>{formatCurrency(product.preco)}</h6>
         </div>
     )
 }

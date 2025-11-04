@@ -1,7 +1,8 @@
 import styles from './Identification.module.css'
-import { bucarCep } from '../../utils/api'
+import { bucarCep, createClienteProfile } from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { useAuth } from '../../context/AuthContext'
 
 const ESTADOS_BRASIL = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES',
     'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ',
@@ -10,8 +11,10 @@ const ESTADOS_BRASIL = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES',
 function Identification() {
 
     const navigate = useNavigate()
+    const { token } = useAuth()
+
     const [formData, setFormData] = useState({
-        nome: '', email: '', tel: '', cep: '', endereco: '', numero: '',
+        nome: '', tel: '', cep: '', endereco: '', numero: '',
         bairro: '', complemento: '', cidade: '', estado: '', concordo: false
     })
     const [formsErrors, setFormsErrors] = useState({})
@@ -50,8 +53,6 @@ function Identification() {
         switch (name) {
             case 'nome':
                 return value ? '' : 'Nome completo é obrigatorio'
-            case 'email':
-                return value ? '' : 'Email é obrigatorio'
             case 'tel':
                 return value ? '' : 'Telefone é obrigatorio'
             case 'cep':
@@ -82,7 +83,6 @@ function Identification() {
     const validateForm = () => {
         const errors = {}
         if (!formData.nome) errors.nome = "Nome completo é obrigatório."
-        if (!formData.email) errors.email = "E-mail é obrigatório."
         if (!formData.tel) errors.tel = "Telefone é obrigatório."
         if (!formData.cep) errors.cep = "CEP é obrigatório."
         if (!formData.endereco) errors.endereco = "Endereço é obrigatório."
@@ -94,17 +94,28 @@ function Identification() {
         return errors
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         const errors = validateForm()
         setFormsErrors(errors)
 
-        if (Object.keys(errors).length === 0) {
-            console.log("Formulario valido. enviando dados", formData)
-            localStorage.setItem('dadosCliente', JSON.stringify(formData))
+        try {
+            const clienteData = {
+                nome: formData.nome,
+                telefone: formData.tel,
+                cep: formData.cep,
+                endereco: formData.endereco,
+                numero: formData.numero,
+                bairro: formData.bairro,
+                complemento: formData.complemento,
+                cidade: formData.cidade,
+                estado: formData.estado
+            }
+            await createClienteProfile(clienteData, token)
+            toast.success('Dados salvos com sucesso!')
             navigate('/payment')
-        } else {
-            console.log("formulario invalido", errors)
+        } catch (error) {
+            toast.error(error.message || 'Não foi possível salvar seus dados.')
         }
     }
 
@@ -129,21 +140,6 @@ function Identification() {
                         className={formsErrors.nome ? styles.campoInvalido : ''}
                     />
                     {formsErrors.nome && <span className={styles.erro}>{formsErrors.nome}</span>}
-                </div>
-
-                {/* ... e-mail, telefone ... */}
-                <div className={styles.inputGroup}>
-                    <label htmlFor="email">E-mail*</label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        required className={formsErrors.email ? styles.campoInvalido : ''}
-                    />
-                    {formsErrors.email && <span className={styles.erro}>{formsErrors.email}</span>}
                 </div>
 
                 <div className={styles.inputGroup}>

@@ -1,36 +1,77 @@
-import { createContext, useContext, useState } from "react";
+import { jwtDecode } from "jwt-decode";
+import { createContext, useContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import { registerUser, loginUser } from '../utils/api';
 
 const AuthContext = createContext()
 
 export const AuthProvider = ({ children }) => {
-    // Estado mocado para simular o usuario logado
+    const [token, setToken] = useState(localStorage.getItem('authToken'))
+    const [user, setUser] = useState(null)
 
-    const [user, setUser] = useState(null) // null = deslogado, { name: 'Usuário Teste' } = logado
+    useEffect(() => {
+        if (token) {
+            try {
+                // Decodifica o token para extrair informações do usuário (email, id, role)
+                const decodeUser = jwtDecode(token)
+                setUser({
+                    id: decodeUser.sub,
+                    email: decodeUser.email,
+                    role: decodeUser.role
+                })
+                localStorage.setItem('authToken', token)
+            } catch (error) {
+                console.error("Token inválido:", error)
+                logout()
+            }
+        } else {
+            localStorage.removeItem('authToken')
+            setUser(null)
+        }
+    }, [token])
 
     const login = async (email, password) => {
-        // Simulação: em um app real, aqui haveria uma chamada de API
-        if (email === "test@teste.com" && password === "senha") {
-            setUser({ name: "Usuário Teste" })
-            return true;
+        try {
+            const data = await loginUser(email, password)
+            setToken(data.token)
+            toast.success('Login realizado com sucesso!')
+            return { success: true }
+        } catch (error) {
+            toast.error(error.message || 'E-mail ou senha inválidos.')
+            return { success: false, message: error.message }
         }
-        return false
     }
 
-    const register = async (email, password) => {
-        console.log("Registrando usuário:", email)
-        setUser({ name: email.split('@')[0] })
-        return true
+    const register = async (email, password, confirmPassword) => {
+        try {
+            await registerUser(email, password, confirmPassword)
+            toast.success('Cadastro realizado com sucesso! Faça o login para continuar.');
+            return { success: true }
+        } catch (error) {
+            toast.error(error.message || 'Não foi possível registrar.')
+            return { success: false, message: error.message }
+        }
     }
 
     const logout = () => {
-        setUser(null); // Simplesmente define o usuário como nulo para deslogar
+        setToken(null);
     };
 
     const isAuthenticated = !!user
-    const userName = user ? user.name : ''
+    const userName = user ? user.email : ''
+
+    const value = {
+        token,
+        user,
+        isAuthenticated,
+        userName,
+        login,
+        register,
+        logout
+    }
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, userName, login, register, logout }}>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     )

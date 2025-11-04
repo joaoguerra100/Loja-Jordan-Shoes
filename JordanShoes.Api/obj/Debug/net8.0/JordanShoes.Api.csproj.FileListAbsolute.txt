@@ -44,3 +44,5 @@ C:\Sistemas\Projetos\Loja-Jordan-Shoes\JordanShoes.Api\bin\Debug\net8.0\Microsof
 C:\Sistemas\Projetos\Loja-Jordan-Shoes\JordanShoes.Api\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Sistemas\Projetos\Loja-Jordan-Shoes\JordanShoes.Api\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 C:\Sistemas\Projetos\Loja-Jordan-Shoes\JordanShoes.Api\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Sistemas\Projetos\Loja-Jordan-Shoes\JordanShoes.Api\bin\Debug\net8.0\FakeData\ItensPedido.json
+C:\Sistemas\Projetos\Loja-Jordan-Shoes\JordanShoes.Api\bin\Debug\net8.0\FakeData\Pedidos.json

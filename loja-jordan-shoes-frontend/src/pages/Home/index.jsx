@@ -2,17 +2,37 @@ import styles from './Home.module.css'
 import Hero from "../../components/Hero"
 import TopFixed from '../../components/TopFixed'
 import ProductCard from '../../components/ProductCard'
-import productsData from '../../data/products.json'
 import { useEffect, useState } from "react"
+import { getProdutcs } from '../../utils/api'
 
 function Home() {
-
     const [producs, setProducts] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
-        // Aqui chamar a API
-        setProducts(productsData)
+        const fetchProducts = async () => {
+            try {
+                const dataFromApi = await getProdutcs()
+                setProducts(dataFromApi)
+            } catch (error) {
+                setError("Não foi possível carregar os produtos. Tente novamente mais tarde.")
+                console.error(error)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchProducts()
     }, [])
+
+    if (loading) {
+        return <p style={{ textAlign: 'center', marginTop: '100px' }}>Carregando produtos...</p>
+    }
+
+    if(error)
+    {
+        return <p style={{ textAlign: 'center', marginTop: '100px', color: 'red' }}>{error}</p>
+    }
 
     return (
         <>

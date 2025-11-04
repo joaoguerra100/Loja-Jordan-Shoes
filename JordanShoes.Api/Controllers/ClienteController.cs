@@ -21,124 +21,89 @@ public class ClienteController : Controller
     [HttpGet]
     public async Task<IActionResult> GetAllClientes()
     {
-        try
-        {
-            var clientes = await _service.GetAllClientesAsync();
-            return Ok(clientes);
-        }
-        catch (Exception e)
-        {
-            return BadRequest($"Nao foi possivel procurar todos os clientes{e.Message}");
-        }
+        var clientes = await _service.GetAllClientesAsync();
+        return Ok(clientes);
     }
 
     [HttpGet("{id}")]
     public async Task<IActionResult> GetClienteById(int id)
     {
-        try
+        var idDoToken = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var papelDoToken = User.FindFirst(ClaimTypes.Role)?.Value;
+
+        if (idDoToken == null) return Unauthorized();
+
+        if (papelDoToken != "Admin" && idDoToken != id.ToString())
         {
-            var idDoToken = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var papelDoToken = User.FindFirst(ClaimTypes.Role)?.Value;
-
-            if (idDoToken == null) return Unauthorized();
-
-            if (papelDoToken != "Admin" && idDoToken != id.ToString())
-            {
-                return Forbid();
-            }
-
-            var cliente = await _service.GetClienteByIdAsync(id);
-            if (cliente == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(cliente);
+            return Forbid();
         }
-        catch (Exception e)
+
+        var cliente = await _service.GetClienteByIdAsync(id);
+        if (cliente == null)
         {
-            return BadRequest($"Nao foi possivel procurar cliente pelo id:{id}{e.Message}");
+            return NotFound();
         }
+
+        return Ok(cliente);
     }
 
     [HttpPost]
     public async Task<IActionResult> CriarCliente([FromBody] CriarClienteDTO dto)
     {
-        try
+        var usuarioIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+        if (usuarioIdClaim == null)
         {
-            var usuarioIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-            if (usuarioIdClaim == null)
-            {
-                return Unauthorized("Token inválido ou não contém o ID do usuário.");
-            }
-
-            var usuarioId = int.Parse(usuarioIdClaim.Value);
-
-            var novoCliente = await _service.CreateClienteAsync(dto, usuarioId);
-
-            if (novoCliente == null)
-            {
-                return BadRequest("Não foi possível criar o cliente. O usuário já pode ter um perfil.");
-            }
-
-            return CreatedAtAction(nameof(GetClienteById), new { id = novoCliente.Id }, novoCliente);
+            return Unauthorized("Token inválido ou não contém o ID do usuário.");
         }
-        catch (Exception e)
+
+        var usuarioId = int.Parse(usuarioIdClaim.Value);
+
+        var novoCliente = await _service.CreateClienteAsync(dto, usuarioId);
+
+        if (novoCliente == null)
         {
-            return BadRequest($"Nao foi possivel Criar cliente{e.Message}");
+            return BadRequest("Não foi possível criar o cliente. O usuário já pode ter um perfil.");
         }
+
+        return CreatedAtAction(nameof(GetClienteById), new { id = novoCliente.Id }, novoCliente);
     }
 
     [HttpPut("{id}")]
     public async Task<IActionResult> AtualizarCliente(int id, [FromBody] AtualizarClienteDTO dto)
     {
-        try
+        var idDoToken = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var papelDoToken = User.FindFirst(ClaimTypes.Role)?.Value;
+
+        if (idDoToken == null) return Unauthorized();
+
+        if (papelDoToken != "Admin" && idDoToken != id.ToString())
         {
-            var idDoToken = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var papelDoToken = User.FindFirst(ClaimTypes.Role)?.Value;
-
-            if (idDoToken == null) return Unauthorized();
-
-            if (papelDoToken != "Admin" && idDoToken != id.ToString())
-            {
-                return Forbid();
-            }
-
-            var clienteAtualizado = await _service.UpdateClienteAsync(id, dto);
-            if (clienteAtualizado == null) return NotFound();
-
-            return Ok(clienteAtualizado);
+            return Forbid();
         }
-        catch (Exception e)
-        {
-            return BadRequest($"Nao foi possivel Atualizar cliente{e.Message}");
-        }
+
+        var clienteAtualizado = await _service.UpdateClienteAsync(id, dto);
+        if (clienteAtualizado == null) return NotFound();
+
+        return Ok(clienteAtualizado);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeletarCliente(int id)
     {
-        try
+        var idDoToken = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var papelDoToken = User.FindFirst(ClaimTypes.Role)?.Value;
+
+        if (idDoToken == null) return Unauthorized();
+
+        if (papelDoToken != "Admin" && idDoToken != id.ToString())
         {
-            var idDoToken = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var papelDoToken = User.FindFirst(ClaimTypes.Role)?.Value;
-
-            if (idDoToken == null) return Unauthorized();
-
-            if (papelDoToken != "Admin" && idDoToken != id.ToString())
-            {
-                return Forbid();
-            }
-
-            var success = await _service.DeleteClienteAsync(id);
-            if (!success) return NotFound();
-
-            return NoContent();
+            return Forbid();
         }
-        catch (Exception e)
-        {
-            return BadRequest($"Nao foi possivel deletar Cliente{e.Message}");
-        }
+
+        var success = await _service.DeleteClienteAsync(id);
+        if (!success) return NotFound();
+
+        return NoContent();
     }
 
 }

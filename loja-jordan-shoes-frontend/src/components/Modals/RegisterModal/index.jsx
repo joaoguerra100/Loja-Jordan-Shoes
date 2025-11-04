@@ -23,11 +23,11 @@ function RegisterModal({ isOpen, onClose }) {
             return
         }
 
-        const success = await register(email, password)
-        if (success) {
+        const result = await register(email, password, password)
+        if (result.success) {
             onClose()
         } else {
-            setError('Não foi possível registrar. Tente outro e-mail.');
+            setError(result.message || 'Não foi possível registrar. Tente outro e-mail.')
         }
     }
 

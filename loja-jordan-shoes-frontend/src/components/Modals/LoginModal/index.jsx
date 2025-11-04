@@ -13,11 +13,11 @@ function LoginModal({isOpen, onClose, onSwitchToRegister}) {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError('')
-        const success = await login(email, password)
-        if (success) {
+        const result = await login(email, password)
+        if (result.success) {
             onClose()
         } else {
-            setError('E-mail ou senha invalidos')
+            setError(result.message || 'E-mail ou senha inválidos.')
         }
     }
 

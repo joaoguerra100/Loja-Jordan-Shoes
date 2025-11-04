@@ -18,16 +18,26 @@ function ProductDetails() {
 
     const [product, setProduct] = useState(null)
     const [loading, setloading] = useState(true)
+    const [error, setError] = useState(null)
     const [selectedSize, setSelectedSize] = useState(null)
 
     useEffect(() => {
         const fetchProduct = async () => {
-            setloading(true)
-            const productData = await getProdutcById(id)
-            setProduct(productData)
-            setloading(false)
+            try {
+                setloading(true)
+                setError(null)
+                const productData = await getProdutcById(id)
+                setProduct(productData)
+            } catch (error) {
+                console.error("Erro ao buscar detalhes do produto:", error)
+                setError("Produto não encontrado ou falha ao carregar.")
+            } finally {
+                setloading(false)
+            }
         }
-        fetchProduct()
+        if (id) {
+            fetchProduct()
+        }
     }, [id])
 
     const handleAddToCart = () => {
@@ -36,7 +46,7 @@ function ProductDetails() {
             return
         }
         addToCart(product, selectedSize)
-        toast.success(`"${product.product_name}" adicionado ao carrinho!`)
+        toast.success(`"${product.nome}" adicionado ao carrinho!`)
         navigate('/cart')
     }
 
@@ -44,9 +54,13 @@ function ProductDetails() {
         return <div style={{ textAlign: 'center', padding: '50px' }}>Carregando detalhes do produto...</div>
     }
 
+    if (error || !product) {
+        return <div style={{ textAlign: 'center', padding: '50px' }}>{error || "Produto não encontrado."}</div>
+    }
+
     // Renderização condicional se o produto não for encontrado
     if (!product) {
-        return <div style={{ textAlign: 'center', padding: '50px' }}>Produto não encontrado.</div>;
+        return <div style={{ textAlign: 'center', padding: '50px' }}>Produto não encontrado.</div>
     }
 
     return (
@@ -62,7 +76,7 @@ function ProductDetails() {
                 <div className={styles.imagensGrid}>
                     {[1, 2, 3, 4, 5, 6].map(i => (
                         <figure key={i}>
-                            <img src={`/images/${product.image}`} alt={`${product.product_name} - vista ${i}`} />
+                            <img src={`/images/${product.image}`} alt={`${product.nome} - vista ${i}`} />
                         </figure>
                     ))}
                 </div>
@@ -70,9 +84,9 @@ function ProductDetails() {
                 {/* Informaçoes do Produto */}
                 <div className={styles.infoProduto}>
                     <div className={styles.infoContainer}>
-                        <h4>{product.product_name}</h4>
-                        <h5>{product.product_model}</h5>
-                        <h6>{formatCurrency(product.price)}</h6>
+                        <h4>{product.nome}</h4>
+                        <h5>{product.descricao}</h5>
+                        <h6>{formatCurrency(product.preco)}</h6>
                     </div>
 
                     <div className={styles.tamanho}>
