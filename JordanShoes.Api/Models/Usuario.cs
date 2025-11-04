@@ -13,4 +13,7 @@ public class Usuario
 
     [Required]
     public string? PasswordHash { get; set; }
+
+    [Required]
+    public string? Role { get; set; }
 }

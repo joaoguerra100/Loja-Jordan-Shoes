@@ -1,5 +1,6 @@
 using JordanShoes.Api.DTOs.Produto;
 using JordanShoes.Api.Service.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JordanShoes.Api.Controllers;
@@ -50,6 +51,7 @@ public class ProdutoController : Controller
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> CriarProduto([FromBody] CriarProdutoDTO dto)
     {
         try
@@ -65,6 +67,7 @@ public class ProdutoController : Controller
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> AtualizarProduto(int id, [FromBody] AtualizarProdutoDTO dto)
     {
         try
@@ -81,6 +84,7 @@ public class ProdutoController : Controller
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeletarProduto(int id)
     {
         try

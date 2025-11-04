@@ -9,11 +9,10 @@ public class Cliente
     public int Id { get; set; }
 
     [Required]
-    public string? Nome { get; set; }
+    public int UsuarioId { get; set; }
 
     [Required]
-    [EmailAddress]
-    public string? Email { get; set; }
+    public string? Nome { get; set; }
 
     [Required]
     public string? Telefone { get; set; }
@@ -39,8 +38,4 @@ public class Cliente
     [Required]
     [MaxLength(2, ErrorMessage = "Estado deve ter no maximo 2 caracteres")]
     public string? Estado { get; set; }
-
-    [ForeignKey("Usuario")]
-    public int? UsuarioId { get; set; }
-    public Usuario? Usuario { get; set; }
 }

@@ -1,5 +1,7 @@
+using System.Security.Claims;
 using JordanShoes.Api.DTOs.Usuario;
 using JordanShoes.Api.Service.Interface;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JordanShoes.Api.Controllers;
@@ -16,6 +18,7 @@ public class UsuarioController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> GetAllUsuarios()
     {
         try
@@ -49,11 +52,34 @@ public class UsuarioController : Controller
         }
     }
 
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginDTO dto)
+    {
+        var token = await _service.LoginAsync(dto);
+
+        if (token == null)
+        {
+            return Unauthorized(new { message = "Email ou senha invalidos" });
+        }
+
+        return Ok(new { token = token });
+    }
+
     [HttpPut("{id}")]
+    [Authorize]
     public async Task<IActionResult> AtualizarUsuario(int id, [FromBody] AtualizarUsuarioDTO dto)
     {
         try
         {
+            var idDoToken = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var papelDoToken = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            if (idDoToken == null) return Unauthorized();
+            if (papelDoToken != "Admin" && idDoToken != id.ToString())
+            {
+                return Forbid();
+            }
+
             var usuarioAtualizado = await _service.UpdateUsuarioAsync(id, dto);
             if (usuarioAtualizado == null) return NotFound();
 
@@ -66,10 +92,21 @@ public class UsuarioController : Controller
     }
 
     [HttpDelete("{id}")]
+    [Authorize]
     public async Task<IActionResult> DeletarUsuario(int id)
     {
         try
         {
+            var idDoToken = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var papelDoToken = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            if (idDoToken == null) return Unauthorized();
+            
+            if (papelDoToken != "Admin" && idDoToken != id.ToString())
+            {
+                return Forbid();
+            }
+
             var success = await _service.DeleteUsuarioAsync(id);
             if (!success) return NotFound();
 
@@ -77,7 +114,7 @@ public class UsuarioController : Controller
         }
         catch (Exception e)
         {
-            return BadRequest($"Nao foi possivel deletar produto{e.Message}");
+            return BadRequest($"Nao foi possivel deletar usuario{e.Message}");
         }
     }
 }

@@ -39,6 +39,12 @@ public class ClienteRepository : IClienteRepository
         return await Task.FromResult(cliente);
     }
 
+    public async Task<Cliente?> GetByUsuarioIdAsync(int usuarioId)
+    {
+        var cliente = _clientes.FirstOrDefault(c => c.UsuarioId == usuarioId);
+        return await Task.FromResult(cliente);
+    }
+
     public async Task<Cliente> CreateClienteAsync(Cliente cliente)
     {
         cliente.Id = _clientes.Any() ? _clientes.Max(c => c.Id) + 1 : 1;
@@ -53,7 +59,6 @@ public class ClienteRepository : IClienteRepository
         if (clienteExistente == null) return null!;
 
         clienteExistente.Nome = cliente.Nome;
-        clienteExistente.Email = cliente.Email;
         clienteExistente.Telefone = cliente.Telefone;
         clienteExistente.Cep = cliente.Cep;
         clienteExistente.Endereco = cliente.Endereco;

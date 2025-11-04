@@ -8,21 +8,28 @@ namespace JordanShoes.Api.Service;
 public class ClienteService : IClienteService
 {
     private readonly IClienteRepository _repository;
+    private readonly IUsuarioRepository _usuarioRepository;
 
-    public ClienteService(IClienteRepository repository)
+    public ClienteService(IClienteRepository repository, IUsuarioRepository usuarioRepository)
     {
         _repository = repository;
+        _usuarioRepository = usuarioRepository;
     }
 
     public async Task<IEnumerable<ClienteDTO>> GetAllClientesAsync()
     {
         var clientes = await _repository.GetAllClientesAsync();
 
+        var usuarios = await _usuarioRepository.GetAllUsuariosAsync();
+        // Cria um dicionário para busca rápida de e-mail pelo ID do usuário
+        var mapaUsuarios = usuarios.ToDictionary(u => u.Id, u => u.Email);
+
         return clientes.Select(c => new ClienteDTO
         {
             Id = c.Id,
+            UsuarioId = c.UsuarioId,
+            Email = mapaUsuarios.ContainsKey(c.UsuarioId) ? mapaUsuarios[c.UsuarioId] : "Usuário não encontrado",
             Nome = c.Nome,
-            Email = c.Email,
             Telefone = c.Telefone,
             Cep = c.Cep,
             Endereco = c.Endereco,
@@ -40,11 +47,14 @@ public class ClienteService : IClienteService
 
         if (cliente == null) return null!;
 
+        var usuario = await _usuarioRepository.GetUsuarioByIdAsync(cliente.UsuarioId);
+
         return new ClienteDTO
         {
             Id = cliente.Id,
+            UsuarioId = cliente.UsuarioId,
+            Email = usuario?.Email,
             Nome = cliente.Nome,
-            Email = cliente.Email,
             Telefone = cliente.Telefone,
             Cep = cliente.Cep,
             Endereco = cliente.Endereco,
@@ -56,12 +66,18 @@ public class ClienteService : IClienteService
         };
     }
 
-    public async Task<ClienteDTO> CreateClienteAsync(CriarClienteDTO dto)
+    public async Task<ClienteDTO> CreateClienteAsync(CriarClienteDTO dto, int usuarioId)
     {
+        var usuario = await _usuarioRepository.GetUsuarioByIdAsync(usuarioId);
+        if (usuario == null) return null!;
+
+        var clienteExistente = await _repository.GetByUsuarioIdAsync(usuarioId);
+        if (clienteExistente != null) return null!;
+
         var novoCLiente = new Cliente
         {
+            UsuarioId = usuarioId,
             Nome = dto.Nome,
-            Email = dto.Email,
             Telefone = dto.Telefone,
             Cep = dto.Cep,
             Endereco = dto.Endereco,
@@ -77,8 +93,9 @@ public class ClienteService : IClienteService
         return new ClienteDTO
         {
             Id = clienteCriado.Id,
+            UsuarioId = clienteCriado.UsuarioId,
+            Email = usuario.Email,
             Nome = clienteCriado.Nome,
-            Email = clienteCriado.Email,
             Telefone = clienteCriado.Telefone,
             Cep = clienteCriado.Cep,
             Endereco = clienteCriado.Endereco,
@@ -95,7 +112,6 @@ public class ClienteService : IClienteService
         var clienteParaAtualizar = new Cliente
         {
             Nome = dto.Nome,
-            Email = dto.Email,
             Telefone = dto.Telefone,
             Cep = dto.Cep,
             Endereco = dto.Endereco,
@@ -109,11 +125,14 @@ public class ClienteService : IClienteService
         var clienteAtualizado = await _repository.UpdateClienteAsync(id, clienteParaAtualizar);
         if (clienteAtualizado == null) return null!;
 
+        var usuario = await _usuarioRepository.GetUsuarioByIdAsync(clienteAtualizado.UsuarioId);
+
         return new ClienteDTO
         {
             Id = clienteAtualizado.Id,
+            UsuarioId = clienteAtualizado.UsuarioId,
+            Email = usuario?.Email,
             Nome = clienteAtualizado.Nome,
-            Email = clienteAtualizado.Email,
             Telefone = clienteAtualizado.Telefone,
             Cep = clienteAtualizado.Cep,
             Endereco = clienteAtualizado.Endereco,

@@ -1,3 +1,38 @@
 [
-  
+  {
+    "Id": 1,
+    "Email": "ana.souza@example.com",
+    "PasswordHash": "$2a$11$5VOOiFaet.7x9ZeE2VRBLuKmkDx2I3C2hVCfXha/fdvdLEpunwgXq",
+    "Role": "Cliente"
+  },
+  {
+    "Id": 2,
+    "Email": "bruno.costa@example.com",
+    "PasswordHash": "$2a$11$t.F1S/4/cqbImTfDJSKXh.5FNQxeI68yV5zcz2VJvs1bTUOd.1ZTy",
+    "Role": "Cliente"
+  },
+  {
+    "Id": 3,
+    "Email": "carlos.martins@example.com",
+    "PasswordHash": "$2a$11$YsfWCh2mlWwmJuUssK3YS.xNJxAV5wdqsd03lJSMZJATRt8IhAYpe",
+    "Role": "Cliente"
+  },
+  {
+    "Id": 4,
+    "Email": "daniela.gomes@example.com",
+    "PasswordHash": "$2a$11$AYqD/t6gkCo8ZISgqY5zJeZ5gLdvGt7Soab4VFvREYCo414DbDOMq",
+    "Role": "Cliente"
+  },
+  {
+    "Id": 5,
+    "Email": "eduardo.alves@example.com",
+    "PasswordHash": "$2a$11$TnDiElRJMDZ/XcpKe8FEkOUMNJ6W.1vvew/cmC8HNGk0Y.csb5v0.",
+    "Role": "Cliente"
+  },
+  {
+    "Id": 6,
+    "Email": "admin@admin.com",
+    "PasswordHash": "$2a$11$xDXzZF1H0my4QHRvbcD5iOTMdBvtySjc2nwxAFF05Q6nt0Ie7k7ca",
+    "Role": "Admin"
+  }
 ]

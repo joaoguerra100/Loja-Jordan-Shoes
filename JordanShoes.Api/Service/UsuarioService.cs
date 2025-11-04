@@ -1,17 +1,23 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using JordanShoes.Api.DTOs.Usuario;
 using JordanShoes.Api.Models;
 using JordanShoes.Api.Repository.Interface;
 using JordanShoes.Api.Service.Interface;
+using Microsoft.IdentityModel.Tokens;
 
 namespace JordanShoes.Api.Service;
 
 public class UsuarioService : IUsuarioService
 {
     private readonly IUsuarioRepository _repository;
+    private readonly IConfiguration _configuration;
 
-    public UsuarioService(IUsuarioRepository repository)
+    public UsuarioService(IUsuarioRepository repository, IConfiguration configuration)
     {
         _repository = repository;
+        _configuration = configuration;
     }
 
     public async Task<IEnumerable<UsuarioInfoDTO>> GetAllUsuariosAsync()
@@ -39,12 +45,31 @@ public class UsuarioService : IUsuarioService
         var novoUsuario = new Usuario
         {
             Email = dto.Email,
-            PasswordHash = passwordHash
+            PasswordHash = passwordHash,
+            Role = "Cliente"
         };
 
         await _repository.CreateAsync(novoUsuario);
 
         return (true, "Usuario registrado com sucesso");
+    }
+
+    public async Task<string?> LoginAsync(LoginDTO dto)
+    {
+        var usuario = await _repository.GetByEmailAsync(dto.Email!);
+        if (usuario == null)
+        {
+            return null;
+        }
+
+        bool senhaValida = BCrypt.Net.BCrypt.Verify(dto.Password, usuario.PasswordHash);
+        if (!senhaValida)
+        {
+            return null;
+        }
+
+        var token = GerarTokenJwt(usuario);
+        return token;
     }
 
     public async Task<UsuarioInfoDTO> UpdateUsuarioAsync(int id, AtualizarUsuarioDTO dto)
@@ -72,5 +97,31 @@ public class UsuarioService : IUsuarioService
     public async Task<bool> DeleteUsuarioAsync(int id)
     {
         return await _repository.DeleteUsuarioAsync(id);
+    }
+
+    private string GerarTokenJwt(Usuario usuario)
+    {
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        var issuer = _configuration["Jwt:Issuer"];
+        var audience = _configuration["Jwt:Audience"];
+
+        var claims = new[]
+        {
+            new Claim(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Email, usuario.Email!),
+            new Claim(ClaimTypes.Role, usuario.Role!),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        };
+
+        var token = new JwtSecurityToken(
+            issuer: issuer,
+            audience: audience,
+            claims: claims,
+            expires: DateTime.Now.AddHours(2),
+            signingCredentials: creds
+        );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }
