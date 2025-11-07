@@ -47,6 +47,35 @@ public class ClienteController : Controller
         return Ok(cliente);
     }
 
+    [HttpGet("meu-perfil")]
+    public async Task<IActionResult> GetMeuPerfil()
+    {
+        try
+        {
+            var usuarioIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (usuarioIdClaim == null)
+            {
+                return Unauthorized("Token inválido.");
+            }
+
+            var usuarioId = int.Parse(usuarioIdClaim.Value);
+
+            var cliente = await _service.GetClienteByUsuarioIdAsync(usuarioId);
+
+            if (cliente == null)
+            {
+                // É crucial retornar 404 aqui para o front-end saber que o perfil não existe
+                return NotFound("Perfil de cliente não encontrado para este usuário.");
+            }
+
+            return Ok(cliente);
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, $"Erro interno: {e.Message}");
+        }
+    }
+
     [HttpPost]
     public async Task<IActionResult> CriarCliente([FromBody] CriarClienteDTO dto)
     {

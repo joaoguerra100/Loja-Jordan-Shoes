@@ -109,8 +109,8 @@ public class UsuarioService : IUsuarioService
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, usuario.Email!),
-            new Claim(ClaimTypes.Role, usuario.Role!),
+            new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
+            new Claim("role", usuario.Role), 
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 

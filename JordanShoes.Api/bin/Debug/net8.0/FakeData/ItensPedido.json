@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "Id": 1,
+    "PedidoId": 1,
+    "ProdutoId": 1,
+    "Quantidade": 1,
+    "PrecoUnitario": 1199.99
+  },
+  {
+    "Id": 2,
+    "PedidoId": 2,
+    "ProdutoId": 1,
+    "Quantidade": 1,
+    "PrecoUnitario": 1199.99
+  }
+]

@@ -66,6 +66,30 @@ public class ClienteService : IClienteService
         };
     }
 
+    public async Task<ClienteDTO?> GetClienteByUsuarioIdAsync(int usuarioId)
+    {
+        var cliente = await _repository.GetByUsuarioIdAsync(usuarioId);
+        if (cliente == null) return null;
+
+        var usuario = await _usuarioRepository.GetUsuarioByIdAsync(cliente.UsuarioId);
+
+        return new ClienteDTO
+        {
+            Id = cliente.Id,
+            UsuarioId = cliente.UsuarioId,
+            Email = usuario?.Email,
+            Nome = cliente.Nome,
+            Telefone = cliente.Telefone,
+            Cep = cliente.Cep,
+            Endereco = cliente.Endereco,
+            Numero = cliente.Numero,
+            Bairro = cliente.Bairro,
+            Complemento = cliente.Complemento,
+            Cidade = cliente.Cidade,
+            Estado = cliente.Estado
+        };
+    }
+
     public async Task<ClienteDTO> CreateClienteAsync(CriarClienteDTO dto, int usuarioId)
     {
         var usuario = await _usuarioRepository.GetUsuarioByIdAsync(usuarioId);

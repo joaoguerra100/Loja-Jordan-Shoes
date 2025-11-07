@@ -34,5 +34,11 @@
     "Email": "admin@admin.com",
     "PasswordHash": "$2a$11$xDXzZF1H0my4QHRvbcD5iOTMdBvtySjc2nwxAFF05Q6nt0Ie7k7ca",
     "Role": "Admin"
+  },
+  {
+    "Id": 7,
+    "Email": "Teste@e.com",
+    "PasswordHash": "$2a$11$0bW4TlhUOQmQ4uBV8uyG/OlxvPEA/G6lSk8AOs52r54A1PjBt9EK2",
+    "Role": "Cliente"
   }
 ]

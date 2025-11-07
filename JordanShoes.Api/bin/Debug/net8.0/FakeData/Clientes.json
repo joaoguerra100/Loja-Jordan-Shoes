@@ -9,7 +9,7 @@
     "Numero": "1578",
     "Bairro": "Bela Vista",
     "Complemento": "Apto 121",
-    "Cidade": "São Paulo",
+    "Cidade": "S\u00E3o Paulo",
     "Estado": "SP"
   },
   {
@@ -18,7 +18,7 @@
     "Nome": "Bruno Costa Lima",
     "Telefone": "21912345678",
     "Cep": "22071-000",
-    "Endereco": "Avenida Atlântica",
+    "Endereco": "Avenida Atl\u00E2ntica",
     "Numero": "1702",
     "Bairro": "Copacabana",
     "Complemento": null,
@@ -33,7 +33,7 @@
     "Cep": "30140-072",
     "Endereco": "Avenida Brasil",
     "Numero": "800",
-    "Bairro": "Santa Efigênia",
+    "Bairro": "Santa Efig\u00EAnia",
     "Complemento": "Loja 05",
     "Cidade": "Belo Horizonte",
     "Estado": "MG"
@@ -59,9 +59,22 @@
     "Cep": "90010-210",
     "Endereco": "Rua dos Andradas",
     "Numero": "1560",
-    "Bairro": "Centro Histórico",
+    "Bairro": "Centro Hist\u00F3rico",
     "Complemento": "Sobreloja",
     "Cidade": "Porto Alegre",
     "Estado": "RS"
+  },
+  {
+    "Id": 6,
+    "UsuarioId": 7,
+    "Nome": "teste teste",
+    "Telefone": "11111111111",
+    "Cep": "72640005",
+    "Endereco": "\u00C1rea ADE 600 Conjunto 5",
+    "Numero": "27",
+    "Bairro": "Recanto das Emas",
+    "Complemento": "",
+    "Cidade": "Bras\u00EDlia",
+    "Estado": "DF"
   }
 ]
