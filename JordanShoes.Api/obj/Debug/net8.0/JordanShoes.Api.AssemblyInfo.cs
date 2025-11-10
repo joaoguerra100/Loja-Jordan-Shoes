@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("JordanShoes.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c4947b2e64bba71d3c8b800fa461eb2818d58313")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c21834af8d0ae1888b17d1d2ff1dc9d390d5e152")]
 [assembly: System.Reflection.AssemblyProductAttribute("JordanShoes.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("JordanShoes.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

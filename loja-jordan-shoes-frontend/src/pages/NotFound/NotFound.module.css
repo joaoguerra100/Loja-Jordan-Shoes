@@ -1,0 +1,56 @@
+.notFoundContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 20px;
+    min-height: 60vh;
+    font-family: Arial, sans-serif;
+}
+
+.content {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.image {
+    width: 750px;
+    height: 200px;
+    opacity: 0.8;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-size: 2.5rem;
+    color: #333;
+    font-weight: bold;
+    margin: 0;
+}
+
+.message {
+    font-size: 1.1rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+.homeButton {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: #f03e3e;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.homeButton:hover {
+    background-color: #c92a2a;
+    transform: translateY(-2px);
+}

@@ -23,7 +23,7 @@ function RegisterModal({ isOpen, onClose }) {
             return
         }
 
-        const result = await register(email, password, password)
+        const result = await register(email, password, confirmPassword)
         if (result.success) {
             onClose()
         } else {

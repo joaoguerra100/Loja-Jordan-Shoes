@@ -8,26 +8,29 @@ const AuthContext = createContext()
 export const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem('authToken'))
     const [user, setUser] = useState(null)
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
+        setIsLoading(true)
         if (token) {
             try {
-                // Decodifica o token para extrair informações do usuário (email, id, role)
-                const decodeUser = jwtDecode(token)
+                const decodedUser = jwtDecode(token);
                 setUser({
-                    id: decodeUser.sub,
-                    email: decodeUser.email,
-                    role: decodeUser.role
-                })
+                    id: decodedUser.sub,
+                    email: decodedUser.email,
+                    role: decodedUser.role || decodedUser["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
+                });
                 localStorage.setItem('authToken', token)
             } catch (error) {
                 console.error("Token inválido:", error)
-                logout()
+                localStorage.removeItem('authToken')
+                setUser(null)
             }
         } else {
             localStorage.removeItem('authToken')
             setUser(null)
         }
+        setIsLoading(false)
     }, [token])
 
     const login = async (email, password) => {
@@ -57,14 +60,12 @@ export const AuthProvider = ({ children }) => {
         setToken(null);
     };
 
-    const isAuthenticated = !!user
-    const userName = user ? user.email : ''
-
     const value = {
         token,
         user,
-        isAuthenticated,
-        userName,
+        isAuthenticated: !!user,
+        isLoading,
+        userName: user ? user.email : '',
         login,
         register,
         logout

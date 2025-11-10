@@ -28,6 +28,7 @@ public class UsuarioService : IUsuarioService
         {
             Id = u.Id,
             Email = u.Email,
+            Role = u.Role
         });
     }
 
@@ -110,7 +111,7 @@ public class UsuarioService : IUsuarioService
         {
             new Claim(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
-            new Claim("role", usuario.Role), 
+            new Claim("role", usuario.Role),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
 

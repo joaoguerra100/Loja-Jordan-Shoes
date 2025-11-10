@@ -3,6 +3,7 @@ import { bucarCep, createClienteProfile } from '../../utils/api'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
+import { toast } from 'react-toastify'
 
 const ESTADOS_BRASIL = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES',
     'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ',

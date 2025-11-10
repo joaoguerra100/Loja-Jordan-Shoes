@@ -1,9 +1,11 @@
 import styles from './Payment.module.css'
 import { useCart } from '../../context/CartContext'
+import { useAuth } from '../../context/AuthContext'
 import { formatCurrency } from '../../utils/helper'
 import { useNavigate } from 'react-router-dom'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'react-toastify'
+import { createOrder } from '../../utils/api'
 
 const formatCardNumber = (value) => {
     return value.replace(/\D/g, '').replace(/(\d{4})(?=\d)/g, '$1 ').trim()
@@ -16,15 +18,14 @@ const formatExpiryDate = (value) => {
 function Payment() {
 
     const navigate = useNavigate()
-    const { cart, clearCart } = useCart()
+    const { cart, clearCart, totalPrice } = useCart()
+    const { token } = useAuth()
 
     const [formData, setFormData] = useState({
         cardNumber: '', cardName: '', expiryDate: '', cvv: '', installments: '1',
         saveCard: false
     })
     const [formErrors, setFormErrors] = useState({})
-
-    const totalPrice = useMemo(() => cart.reduce((total, item) => total + item.price, 0), [cart])
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target
@@ -47,33 +48,33 @@ function Payment() {
         return errors
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         const errors = validateForm()
         setFormErrors(errors)
 
         if (Object.keys(errors).length === 0) {
-            const clienteData = JSON.parse(localStorage.getItem('dadosCliente') || '{}')
-            const pedido = {
-                id: new Date().getTime(),
-                cliente: clienteData,
-                itens: cart,
-                total: totalPrice,
-                pagamento: {
-                    numeroCartao: formData.cardNumber.slice(-4),
-                    parcelas: formData.installments
-                },
-                data: new Date().toISOString()
-            }
-            console.log("PEDIDO FINALIZADO:", pedido)
-            // Aqui, em um app real, você enviaria o 'pedido' para o seu backend
+            try {
+                // 1. Prepara os dados do carrinho para a API
+                const orderData = {
+                    itens: cart.map(item => ({
+                        produtoId: item.id,
+                        quantidade: item.quantidade
+                    }))
+                };
 
-            toast.success("Compra realizada com sucesso!")
-            clearCart();
-            localStorage.removeItem('dadosCliente')
-            navigate('/');
+                // 2. Chama a API para criar o pedido
+                const novoPedido = await createOrder(orderData, token);
+
+                // 3. Se deu certo, mostra sucesso, limpa o carrinho e navega
+                toast.success(`Pedido #${novoPedido.id} finalizado com sucesso!`)
+                clearCart()
+                navigate('/')
+            } catch (error) {
+                toast.error(error.message || "Houve um problema ao finalizar seu pedido.")
+            }
         }
-    }
+    };
 
     if (cart.length === 0) {
         return (
